@@ -52,31 +52,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
+   
+   
+   
+   
+   
+   
+   
+   
+
+   
+   
+   
+   
+
+   
+   
+   
+   
+   
+   
+   
+   
   const fetchUserRole = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: true })
-        .limit(1);
+  try {
+    // 1. LẤY TẤT CẢ ROLE của User (không limit 1 nữa)
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
 
-      if (error) {
-        console.error("Error fetching user role:", error);
-        return;
-      }
-
-      if (data && data.length > 0) {
-        // Priority: admin > sponsor > speaker > investor > startup > attendee
-        const roles = data.map(r => r.role as AppRole);
-        const priority: AppRole[] = ["admin", "sponsor", "speaker", "investor", "startup", "attendee"];
-        const primaryRole = priority.find(p => roles.includes(p)) || "attendee";
-        setUserRole(primaryRole);
-      }
-    } catch (err) {
-      console.error("Error in fetchUserRole:", err);
+    if (error) {
+      console.error("Error fetching user role:", error);
+      return;
     }
-  };
+
+    if (data && data.length > 0) {
+      const roles = data.map(r => r.role as AppRole);
+      
+      // 2. LOGIC ƯU TIÊN: Tìm quyền cao nhất trong danh sách trả về
+      const priority: AppRole[] = ["admin", "sponsor", "speaker", "investor", "startup", "attendee"];
+      const primaryRole = priority.find(p => roles.includes(p)) || "attendee";
+      
+      console.log("Quyền hiện tại của bạn là:", primaryRole); // Để bạn kiểm tra trong console F12
+      setUserRole(primaryRole);
+    }
+  } catch (err) {
+    console.error("Error in fetchUserRole:", err);
+  }
+};
 
   const signOut = async () => {
     await supabase.auth.signOut();

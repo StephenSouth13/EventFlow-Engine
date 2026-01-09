@@ -1,3 +1,4 @@
+--D:\Website\EventFlow-Engine\supabase\migrations\20260109070735_768b318b-65cc-438b-a2b9-b6cbe306a5d2.sql--
 -- Create navigation menu table
 CREATE TABLE public.cms_navigation (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,

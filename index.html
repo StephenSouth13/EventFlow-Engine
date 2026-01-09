@@ -1,26 +1,79 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    
+    <title>Learn For Growth | Hệ sinh thái Landing Page Tự động</title>
+    <meta name="description" content="Nền tảng Landing Page Automation cho Event, Startup và Investor của learnforgrowth.com.vn" />
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <link rel="preconnect" href="https://your-project-id.supabase.co">
+    <link rel="dns-prefetch" href="https://your-project-id.supabase.co">
+
+    <style id="dynamic-theme">
+      :root {
+        --primary: #2563eb;
+        --secondary: #7c3aed;
+        --accent: #f59e0b;
+        --bg-main: #050505;
+        --font-main: 'Inter', system-ui, sans-serif;
+      }
+      body {
+        background-color: var(--bg-main);
+        color: white;
+        margin: 0;
+        font-family: var(--font-main);
+      }
+      /* Hiệu ứng loading siêu mượt */
+      #initial-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+      .loader-dot {
+        width: 12px;
+        height: 12px;
+        background: var(--primary);
+        border-radius: 50%;
+        margin: 0 5px;
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.5); opacity: 1; }
+      }
+    </style>
+
+    <meta property="og:site_name" content="Learn For Growth" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://learnforgrowth.com.vn" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
   </head>
 
   <body>
+    <div id="initial-loader">
+      <div class="loader-dot"></div>
+      <div class="loader-dot" style="animation-delay: 0.2s"></div>
+      <div class="loader-dot" style="animation-delay: 0.4s"></div>
+    </div>
+
     <div id="root"></div>
+
+    <script>
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('initial-loader');
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 500);
+        }, 300);
+      });
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

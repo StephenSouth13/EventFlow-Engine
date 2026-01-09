@@ -1,3 +1,4 @@
+--D:\Website\EventFlow-Engine\supabase\migrations\20260101063521_11d3e340-3408-4bdf-8091-f4ed6b8ae246.sql--
 -- Create app_role enum for role-based access control
 CREATE TYPE public.app_role AS ENUM ('attendee', 'startup', 'investor', 'speaker', 'sponsor', 'admin');
 

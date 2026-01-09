@@ -1,3 +1,4 @@
+--D:\Website\EventFlow-Engine\supabase\migrations\20260109071402_bea3411f-3d8e-4b12-a5f8-3463254869eb.sql--
 -- Add is_published column to CMS tables
 ALTER TABLE public.cms_hero ADD COLUMN IF NOT EXISTS is_published BOOLEAN DEFAULT true;
 ALTER TABLE public.cms_features ADD COLUMN IF NOT EXISTS is_published BOOLEAN DEFAULT true;

@@ -1,3 +1,4 @@
+--D:\Website\EventFlow-Engine\supabase\migrations\20260102032233_7eac44ce-bb8f-43b9-87ff-fdfc0d2ca577.sql--
 -- CMS Content Tables for Landing Page
 
 -- Hero Section Content
