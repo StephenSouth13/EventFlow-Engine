@@ -1,0 +1,479 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SISF 2026 Design System - Seasonal & Festive Themes */
+
+@layer base {
+  :root {
+    /* Base Dark Theme */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 187 100% 50%;
+    --primary-foreground: 222 47% 6%;
+
+    --secondary: 270 60% 60%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 222 30% 15%;
+    --muted-foreground: 215 20% 55%;
+
+    --accent: 187 80% 40%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 15%;
+    --ring: 187 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(187 100% 50%) 0%, hsl(270 60% 60%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(222 47% 6%) 0%, hsl(240 30% 12%) 50%, hsl(270 40% 15%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(222 47% 10% / 0.8) 0%, hsl(222 47% 8% / 0.6) 100%);
+    --gradient-glow: linear-gradient(135deg, hsl(187 100% 50% / 0.2) 0%, hsl(270 60% 60% / 0.2) 100%);
+    
+    --shadow-glow: 0 0 40px hsl(187 100% 50% / 0.15);
+    --shadow-glow-intense: 0 0 60px hsl(187 100% 50% / 0.25);
+    --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.4);
+    --shadow-elevated: 0 8px 40px hsl(0 0% 0% / 0.5);
+
+    /* Glass effect */
+    --glass-bg: hsl(222 47% 10% / 0.7);
+    --glass-border: hsl(187 100% 50% / 0.1);
+
+    /* Sidebar */
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 187 100% 50%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 30% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 30% 18%;
+    --sidebar-ring: 187 100% 50%;
+
+    /* Status colors */
+    --success: 152 70% 45%;
+    --warning: 38 92% 50%;
+    --info: 200 90% 55%;
+  }
+
+  /* ============================================
+     🌸 SPRING - Mùa Xuân
+     ============================================ */
+  [data-season="spring"] {
+    --background: 150 30% 6%;
+    --foreground: 150 20% 95%;
+    
+    --card: 150 25% 10%;
+    --card-foreground: 150 20% 95%;
+    
+    --popover: 150 25% 12%;
+    --popover-foreground: 150 20% 95%;
+    
+    --primary: 340 80% 70%;
+    --primary-foreground: 150 30% 6%;
+    
+    --secondary: 90 60% 60%;
+    --secondary-foreground: 150 30% 6%;
+    
+    --muted: 150 20% 15%;
+    --muted-foreground: 150 15% 55%;
+    
+    --accent: 340 70% 60%;
+    --accent-foreground: 150 20% 95%;
+    
+    --border: 150 20% 18%;
+    --input: 150 20% 15%;
+    --ring: 340 80% 70%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(340 80% 70%) 0%, hsl(90 60% 50%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(150 30% 6%) 0%, hsl(150 40% 10%) 50%, hsl(340 30% 12%) 100%);
+    --shadow-glow: 0 0 40px hsl(340 80% 70% / 0.2);
+    --glass-border: hsl(340 80% 70% / 0.15);
+  }
+
+  /* ============================================
+     ☀️ SUMMER - Mùa Hạ
+     ============================================ */
+  [data-season="summer"] {
+    --background: 200 50% 6%;
+    --foreground: 45 90% 95%;
+    
+    --card: 200 45% 10%;
+    --card-foreground: 45 90% 95%;
+    
+    --popover: 200 45% 12%;
+    --popover-foreground: 45 90% 95%;
+    
+    --primary: 45 100% 55%;
+    --primary-foreground: 200 50% 10%;
+    
+    --secondary: 200 80% 55%;
+    --secondary-foreground: 200 50% 6%;
+    
+    --muted: 200 30% 15%;
+    --muted-foreground: 200 20% 55%;
+    
+    --accent: 200 80% 50%;
+    --accent-foreground: 45 90% 95%;
+    
+    --border: 200 30% 18%;
+    --input: 200 30% 15%;
+    --ring: 45 100% 55%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(45 100% 55%) 0%, hsl(200 80% 55%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(200 50% 6%) 0%, hsl(200 60% 12%) 50%, hsl(45 50% 15%) 100%);
+    --shadow-glow: 0 0 40px hsl(45 100% 55% / 0.2);
+    --glass-border: hsl(45 100% 55% / 0.15);
+  }
+
+  /* ============================================
+     🍂 AUTUMN - Mùa Thu
+     ============================================ */
+  [data-season="autumn"] {
+    --background: 25 40% 6%;
+    --foreground: 30 30% 92%;
+    
+    --card: 25 35% 10%;
+    --card-foreground: 30 30% 92%;
+    
+    --popover: 25 35% 12%;
+    --popover-foreground: 30 30% 92%;
+    
+    --primary: 25 90% 55%;
+    --primary-foreground: 25 40% 6%;
+    
+    --secondary: 10 60% 45%;
+    --secondary-foreground: 30 30% 92%;
+    
+    --muted: 25 25% 15%;
+    --muted-foreground: 30 20% 50%;
+    
+    --accent: 35 80% 50%;
+    --accent-foreground: 25 40% 6%;
+    
+    --border: 25 25% 18%;
+    --input: 25 25% 15%;
+    --ring: 25 90% 55%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(25 90% 55%) 0%, hsl(10 60% 45%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(25 40% 6%) 0%, hsl(20 35% 10%) 50%, hsl(10 30% 12%) 100%);
+    --shadow-glow: 0 0 40px hsl(25 90% 55% / 0.2);
+    --glass-border: hsl(25 90% 55% / 0.12);
+  }
+
+  /* ============================================
+     ❄️ WINTER - Mùa Đông
+     ============================================ */
+  [data-season="winter"] {
+    --background: 210 40% 6%;
+    --foreground: 210 30% 95%;
+    
+    --card: 210 35% 10%;
+    --card-foreground: 210 30% 95%;
+    
+    --popover: 210 35% 12%;
+    --popover-foreground: 210 30% 95%;
+    
+    --primary: 200 80% 65%;
+    --primary-foreground: 210 40% 6%;
+    
+    --secondary: 240 40% 60%;
+    --secondary-foreground: 210 30% 95%;
+    
+    --muted: 210 25% 15%;
+    --muted-foreground: 210 20% 55%;
+    
+    --accent: 200 70% 55%;
+    --accent-foreground: 210 30% 95%;
+    
+    --border: 210 25% 18%;
+    --input: 210 25% 15%;
+    --ring: 200 80% 65%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(200 80% 65%) 0%, hsl(240 40% 60%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(210 40% 6%) 0%, hsl(220 45% 10%) 50%, hsl(230 40% 12%) 100%);
+    --shadow-glow: 0 0 40px hsl(200 80% 65% / 0.2);
+    --glass-border: hsl(200 80% 65% / 0.1);
+  }
+
+  /* ============================================
+     🎄 CHRISTMAS - Giáng Sinh
+     ============================================ */
+  [data-festive="christmas"] {
+    --primary: 0 85% 55%;
+    --primary-foreground: 120 60% 95%;
+    
+    --secondary: 120 60% 35%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 10%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(0 85% 55%) 0%, hsl(120 60% 35%) 100%);
+    --shadow-glow: 0 0 40px hsl(0 85% 55% / 0.25);
+    --glass-border: hsl(0 85% 55% / 0.15);
+  }
+
+  /* ============================================
+     🧧 LUNAR NEW YEAR - Tết Nguyên Đán
+     ============================================ */
+  [data-festive="lunar-new-year"] {
+    --background: 0 60% 6%;
+    --card: 0 50% 10%;
+    
+    --primary: 45 100% 50%;
+    --primary-foreground: 0 60% 15%;
+    
+    --secondary: 0 80% 50%;
+    --secondary-foreground: 45 100% 95%;
+    
+    --accent: 25 100% 55%;
+    --accent-foreground: 0 60% 6%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(0 80% 50%) 0%, hsl(45 100% 50%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(0 60% 6%) 0%, hsl(0 70% 12%) 50%, hsl(25 50% 15%) 100%);
+    --shadow-glow: 0 0 40px hsl(45 100% 50% / 0.25);
+    --glass-border: hsl(45 100% 50% / 0.15);
+  }
+
+  /* ============================================
+     🇻🇳 VIETNAM NATIONAL DAY - Quốc Khánh
+     ============================================ */
+  [data-festive="vietnam-national"] {
+    --primary: 45 100% 50%;
+    --primary-foreground: 0 80% 30%;
+    
+    --secondary: 0 80% 45%;
+    --secondary-foreground: 45 100% 95%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(0 80% 45%) 0%, hsl(45 100% 50%) 100%);
+    --shadow-glow: 0 0 40px hsl(0 80% 45% / 0.3);
+  }
+
+  /* ============================================
+     🎃 HALLOWEEN
+     ============================================ */
+  [data-festive="halloween"] {
+    --background: 270 40% 6%;
+    --card: 270 35% 10%;
+    
+    --primary: 30 100% 50%;
+    --primary-foreground: 270 40% 6%;
+    
+    --secondary: 280 60% 50%;
+    --secondary-foreground: 30 100% 95%;
+    
+    --accent: 0 0% 10%;
+    --accent-foreground: 30 100% 50%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(30 100% 50%) 0%, hsl(280 60% 50%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(270 40% 6%) 0%, hsl(280 45% 10%) 50%, hsl(30 40% 12%) 100%);
+    --shadow-glow: 0 0 40px hsl(30 100% 50% / 0.3);
+    --glass-border: hsl(30 100% 50% / 0.15);
+  }
+
+  /* ============================================
+     💕 VALENTINE
+     ============================================ */
+  [data-festive="valentine"] {
+    --primary: 340 85% 60%;
+    --primary-foreground: 340 40% 10%;
+    
+    --secondary: 0 70% 55%;
+    --secondary-foreground: 340 30% 95%;
+    
+    --accent: 300 60% 55%;
+    --accent-foreground: 340 30% 95%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(340 85% 60%) 0%, hsl(0 70% 55%) 100%);
+    --shadow-glow: 0 0 40px hsl(340 85% 60% / 0.3);
+    --glass-border: hsl(340 85% 60% / 0.15);
+  }
+
+  /* ============================================
+     🎉 NEW YEAR
+     ============================================ */
+  [data-festive="new-year"] {
+    --primary: 270 80% 60%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 45 100% 55%;
+    --secondary-foreground: 270 60% 10%;
+    
+    --accent: 180 80% 50%;
+    --accent-foreground: 270 60% 10%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(270 80% 60%) 0%, hsl(180 80% 50%) 50%, hsl(45 100% 55%) 100%);
+    --shadow-glow: 0 0 40px hsl(270 80% 60% / 0.3);
+    --glass-border: hsl(270 80% 60% / 0.15);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.5s ease, color 0.3s ease;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .gradient-glow {
+    background: var(--gradient-glow);
+  }
+
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-glow-intense {
+    box-shadow: var(--shadow-glow-intense);
+  }
+
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-card);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  .animate-gradient {
+    animation: gradient-shift 8s ease infinite;
+    background-size: 200% 200%;
+  }
+
+  /* Festive sparkle effect */
+  .sparkle-hover:hover {
+    animation: sparkle 0.5s ease-out;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.2);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.4);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes sparkle {
+    0% {
+      filter: brightness(1);
+    }
+    50% {
+      filter: brightness(1.3);
+    }
+    100% {
+      filter: brightness(1);
+    }
+  }
+}
+
+/* Typography enhancements */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold tracking-tight;
+}
+
+/* Focus visible styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+}
+
+/* Selection styles */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
+}
