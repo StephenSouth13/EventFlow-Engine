@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import {
   Select,
@@ -11,14 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, Trash2, Edit2, Shield } from "lucide-react";
+import { Loader2, Edit2, Shield, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface UserWithRole {
   id: string;
   email: string;
   created_at: string;
-  last_sign_in_at: string | null;
   user_roles?: Array<{
     id: string;
     role: string;
@@ -45,43 +44,41 @@ export function UserManagement() {
   const loadUsers = async () => {
     try {
       setLoading(true);
-      // Get all users from auth
-      const { data: authUsers, error: authError } = await supabase.auth.admin.listUsers();
+      
+      // 1. Lấy danh sách profiles thay vì auth.admin (để chạy được trên Vercel)
+      const { data: profiles, error: profileError } = await supabase
+        .from("profiles")
+        .select("id, email, created_at");
 
-      if (authError) throw authError;
+      if (profileError) throw profileError;
 
-      // Get all user roles
+      // 2. Lấy toàn bộ roles
       const { data: rolesData, error: rolesError } = await supabase
         .from("user_roles")
         .select("*");
 
       if (rolesError) throw rolesError;
 
-      // Map roles to users
-      const usersWithRoles: UserWithRole[] = (authUsers.users || []).map((user) => ({
+      // 3. Map dữ liệu lồng nhau
+      const usersWithRoles: UserWithRole[] = (profiles || []).map((user) => ({
         id: user.id,
-        email: user.email || "",
+        email: user.email || "No Email",
         created_at: user.created_at,
-        last_sign_in_at: user.last_sign_in_at,
         user_roles: rolesData?.filter((role) => role.user_id === user.id) || [],
       }));
 
       setUsers(usersWithRoles);
     } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      console.error("Load users error:", error);
+      toast({ title: "Lỗi kết nối", description: error.message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
   };
 
   const handleAddRole = async (userId: string) => {
-    if (!selectedRole) {
-      toast({ title: "Error", description: "Please select a role", variant: "destructive" });
-      return;
-    }
-
+    if (!selectedRole) return;
     setSubmitting(true);
-
     try {
       const { error } = await supabase
         .from("user_roles")
@@ -89,12 +86,12 @@ export function UserManagement() {
 
       if (error) throw error;
 
-      toast({ title: "Success", description: `Role ${selectedRole} added` });
+      toast({ title: "Thành công", description: `Đã thêm quyền ${selectedRole}` });
       setSelectedRole("");
       setEditingUserId(null);
       loadUsers();
     } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Lỗi", description: error.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -108,190 +105,119 @@ export function UserManagement() {
         .eq("id", roleId);
 
       if (error) throw error;
-
-      toast({ title: "Success", description: "Role removed" });
+      toast({ title: "Đã xóa", description: "Quyền đã được thu hồi" });
       loadUsers();
     } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "Lỗi", description: error.message, variant: "destructive" });
     }
   };
 
   const filteredUsers = users.filter((user) => {
     const emailMatch = user.email.toLowerCase().includes(searchEmail.toLowerCase());
-    const roleMatch =
-      !filterRole ||
-      (user.user_roles && user.user_roles.some((r) => r.role === filterRole));
+    const roleMatch = !filterRole || user.user_roles?.some((r) => r.role === filterRole);
     return emailMatch && roleMatch;
   });
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-6 h-6 animate-spin" />
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Search and Filter */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Search and Filter</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Search by Email</Label>
-              <Input
-                placeholder="Search email..."
-                value={searchEmail}
-                onChange={(e) => setSearchEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Filter by Role</Label>
-              <Select value={filterRole} onValueChange={setFilterRole}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All Roles" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All Roles</SelectItem>
-                  {AVAILABLE_ROLES.map((role) => (
-                    <SelectItem key={role} value={role}>
-                      {role.charAt(0).toUpperCase() + role.slice(1)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+    <div className="space-y-6 max-w-6xl mx-auto p-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <h2 className="text-2xl font-bold tracking-tight">Quản lý người dùng</h2>
+        <div className="flex gap-2 w-full md:w-auto">
+          <div className="relative flex-1">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Tìm email..."
+              className="pl-8"
+              value={searchEmail}
+              onChange={(e) => setSearchEmail(e.target.value)}
+            />
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Users List */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">
-          Users ({filteredUsers.length})
-        </h3>
-
-        {filteredUsers.length === 0 ? (
-          <Card>
-            <CardContent className="pt-6 text-center text-muted-foreground">
-              No users found
-            </CardContent>
-          </Card>
-        ) : (
-          filteredUsers.map((user) => (
-            <Card key={user.id}>
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="font-semibold">{user.email}</h3>
-                    <div className="space-y-1 mt-2">
-                      <p className="text-sm text-muted-foreground">
-                        Joined: {new Date(user.created_at).toLocaleDateString()}
-                      </p>
-                      {user.last_sign_in_at && (
-                        <p className="text-sm text-muted-foreground">
-                          Last login: {new Date(user.last_sign_in_at).toLocaleDateString()}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* User Roles */}
-                    <div className="mt-4">
-                      <p className="text-sm font-medium mb-2">Roles:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {user.user_roles && user.user_roles.length > 0 ? (
-                          user.user_roles.map((role) => (
-                            <div
-                              key={role.id}
-                              className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full text-sm"
-                            >
-                              <Shield className="w-3 h-3" />
-                              {role.role}
-                              <button
-                                onClick={() => handleRemoveRole(role.id)}
-                                className="ml-2 text-xs text-destructive hover:text-destructive/80"
-                              >
-                                ✕
-                              </button>
-                            </div>
-                          ))
-                        ) : (
-                          <span className="text-xs text-muted-foreground">No roles assigned</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Add Role */}
-                  <div className="w-48">
-                    {editingUserId === user.id ? (
-                      <div className="space-y-2">
-                        <Select value={selectedRole} onValueChange={setSelectedRole}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select role" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {AVAILABLE_ROLES.map((role) => (
-                              <SelectItem key={role} value={role}>
-                                {role.charAt(0).toUpperCase() + role.slice(1)}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="default"
-                            onClick={() => handleAddRole(user.id)}
-                            disabled={submitting || !selectedRole}
-                            className="flex-1"
-                          >
-                            {submitting ? <Loader2 className="w-3 h-3 animate-spin" /> : "Add"}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              setEditingUserId(null);
-                              setSelectedRole("");
-                            }}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="w-full"
-                        onClick={() => setEditingUserId(user.id)}
-                      >
-                        <Edit2 className="w-4 h-4 mr-2" />
-                        Add Role
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        )}
+          <Select value={filterRole} onValueChange={setFilterRole}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Lọc quyền" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all-roles">Tất cả quyền</SelectItem>
+              {AVAILABLE_ROLES.map((role) => (
+                <SelectItem key={role} value={role}>{role}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      <Card className="bg-muted/50">
-        <CardContent className="pt-6">
-          <p className="text-sm text-muted-foreground">
-            <strong>Note:</strong> Users are synced from Supabase authentication. You can assign roles here to grant
-            access to different parts of the application.
-          </p>
-        </CardContent>
-      </Card>
+      <div className="grid gap-4">
+        {filteredUsers.map((user) => (
+          <Card key={user.id} className="overflow-hidden border-l-4 border-l-primary">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-lg">{user.email}</span>
+                    <span className="text-xs text-muted-foreground px-2 py-0.5 bg-muted rounded">
+                      ID: {user.id.slice(0, 8)}...
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Tham gia từ: {new Date(user.created_at).toLocaleDateString('vi-VN')}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {user.user_roles?.map((role) => (
+                      <div key={role.id} className="inline-flex items-center bg-primary/10 text-primary text-xs font-medium px-2.5 py-1 rounded-full border border-primary/20">
+                        <Shield className="w-3 h-3 mr-1" />
+                        {role.role}
+                        <button 
+                          onClick={() => handleRemoveRole(role.id)}
+                          className="ml-2 hover:text-destructive transition-colors"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {editingUserId === user.id ? (
+                    <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2">
+                      <Select value={selectedRole} onValueChange={setSelectedRole}>
+                        <SelectTrigger className="w-[130px] h-9">
+                          <SelectValue placeholder="Chọn quyền" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {AVAILABLE_ROLES.map((role) => (
+                            <SelectItem key={role} value={role}>{role}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button size="sm" onClick={() => handleAddRole(user.id)} disabled={submitting}>
+                        Lưu
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={() => setEditingUserId(null)}>
+                        Hủy
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button variant="outline" size="sm" onClick={() => setEditingUserId(user.id)}>
+                      <Edit2 className="w-3.5 h-3.5 mr-2" />
+                      Gán quyền
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }
