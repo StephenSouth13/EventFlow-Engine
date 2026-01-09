@@ -72,10 +72,10 @@ Tại Vercel: Settings > Domains > Add *.learnforgrowth.com.vn.
 
 Tại Supabase: Thêm bản ghi vào bảng template_domains để map subdomain với template tương ứng.
 
-🛠️ Chỉnh sửa bằng Lovable
+🛠️ Chỉnh sửa bằng
 Bạn có thể tiếp tục dùng AI để phát triển tính năng mới:
 
-Truy cập Lovable Project.
+Truy cập Project.
 
 Prompting các yêu cầu mới (ví dụ: "Thêm block Countdown cho Hero section").
 
