@@ -1,73 +1,89 @@
-# Welcome to your Lovable project
+🚀 EventScale OS | Multi-Tenant Landing Page Automation
+EventScale OS là nền tảng quản lý và tự động hóa Landing Page dành riêng cho hệ sinh thái Learn For Growth. Hệ thống cho phép khởi tạo, tùy chỉnh giao diện và điều hướng hàng trăm Subdomain chỉ từ một bộ mã nguồn duy nhất.
 
-## Project info
+🌟 Tính năng "Siêu đỉnh"
+Multi-tenant Routing: Tự động nhận diện và đổ dữ liệu theo Subdomain (ví dụ: festival.learnforgrowth.com.vn).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Dynamic CMS: Chỉnh sửa Hero, Stats, CTA, Diễn giả... thời gian thực qua Admin Dashboard.
 
-## How can I edit this code?
+Theme Engine: 10+ bộ Theme mẫu (Ocean Blue, Sunset Gold, Tech Dark...) tích hợp sẵn.
 
-There are several ways of editing your application.
+Role-Based Access (RBAC): Phân quyền chặt chẽ (Admin, Startup, Investor, Speaker).
 
-**Use Lovable**
+Draft & Publish: Hệ thống lưu nháp và xuất bản nội dung chuyên nghiệp.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+🛠️ Công nghệ sử dụng
+Frontend: React + Vite + TypeScript.
 
-Changes made via Lovable will be committed automatically to this repo.
+UI Lib: shadcn/ui + Tailwind CSS + Lucide Icons.
 
-**Use your preferred IDE**
+Backend: Supabase (Database, Auth, Storage, Real-time).
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Deployment: Vercel (Hỗ trợ Wildcard Subdomains).
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+🏗️ Cấu trúc Database (Supabase)
+Hệ thống vận hành dựa trên các bảng chính:
 
-Follow these steps:
+templates & template_domains: Lõi điều hướng Multi-tenant.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+cms_hero, cms_stats, cms_features: Quản lý nội dung Landing Page.
+
+homepage_themes: Lưu trữ cấu hình màu sắc và font chữ.
+
+user_roles: Quản lý quyền Admin.
+
+💻 Hướng dẫn phát triển (Local Development)
+1. Cài đặt môi trường
+Đảm bảo bạn đã cài đặt Node.js và pnpm.
+
+Bash
+
+# Clone repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Cài đặt dependencies
+pnpm install
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Khởi chạy dev server
+pnpm dev
+2. Biến môi trường (.env)
+Tạo file .env tại thư mục gốc và cấu hình kết nối Supabase:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Đoạn mã
 
-**Edit a file directly in GitHub**
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+3. Kích hoạt quyền Admin
+Để vào được /admin/cms, bạn cần gán quyền admin cho user trong SQL Editor của Supabase:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+SQL
 
-**Use GitHub Codespaces**
+INSERT INTO public.user_roles (user_id, role) VALUES ('YOUR_USER_ID', 'admin');
+🌐 Hướng dẫn Triển khai (Deployment)
+1. Deploy lên Vercel
+Kết nối Repo với Vercel.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Thêm các biến môi trường VITE_SUPABASE_URL và VITE_SUPABASE_ANON_KEY.
 
-## What technologies are used for this project?
+Nhấn Deploy.
 
-This project is built with:
+2. Cấu hình Domain & Subdomains
+Tại Vercel: Settings > Domains > Add *.learnforgrowth.com.vn.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Tại Supabase: Thêm bản ghi vào bảng template_domains để map subdomain với template tương ứng.
 
-## How can I deploy this project?
+🛠️ Chỉnh sửa bằng Lovable
+Bạn có thể tiếp tục dùng AI để phát triển tính năng mới:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Truy cập Lovable Project.
 
-## Can I connect a custom domain to my Lovable project?
+Prompting các yêu cầu mới (ví dụ: "Thêm block Countdown cho Hero section").
 
-Yes, you can!
+Thay đổi sẽ tự động được commit về Github này.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+📝 Giấy phép & Liên hệ
+Dự án thuộc sở hữu của Learn For Growth (LFG).
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Website: learnforgrowth.com.vn
+
+Admin CMS: /admin/cms
